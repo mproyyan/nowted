@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "tw": "npx tailwindcss -i ./resources/css/app.css -o ./resources/css/output.css --watch"
+        "tw": "npx tailwindcss -i ./resources/css/app.css -o ./public/css/output.css --watch"
     },
     "devDependencies": {
         "axios": "^1.1.2",
