@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,5 +39,12 @@ class Folder extends Model
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class, 'folder_id');
+    }
+
+    public function scopeRoot(Builder $query): void
+    {
+        $query->where('is_archived', '=', false)
+            ->where('deleted_at', '=', null)
+            ->where('parent_folder', '=', null);
     }
 }

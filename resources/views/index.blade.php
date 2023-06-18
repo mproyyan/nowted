@@ -63,6 +63,9 @@
     <section class="mt-5 w-full">
       @yield('content')
     </section>
+
+    <!-- margin helper -->
+    <div class="mt-10"></div>
   </div>
 </body>
 
