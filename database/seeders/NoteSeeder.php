@@ -2,20 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Folder;
+use App\Models\Note;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class FolderSeeder extends Seeder
+class NoteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Folder::factory()
-            ->count(2)
-            ->has(Folder::factory()->count(2), 'children')
+        Note::factory()
+            ->count(5)
             ->create();
     }
 }

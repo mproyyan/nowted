@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('folders', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name', 100);
+            $table->uuid('folder_id')->nullable(true);
+            $table->foreign('folder_id')->references('id')->on('folders')->cascadeOnDelete()->cascadeOnDelete();
+            $table->string('title', 100);
+            $table->text('content')->nullable(true);
             $table->boolean('is_archived')->default(false);
             $table->boolean('is_favorited')->default(false);
             $table->timestamps();
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('folders');
+        Schema::dropIfExists('notes');
     }
 };
