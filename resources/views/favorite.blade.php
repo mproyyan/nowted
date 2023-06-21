@@ -3,45 +3,9 @@
 @section('content')
   <div class="px-4">
     <!-- Page Title -->
-    <h2 class="text-xl sm:text-3xl font-semibold text-white">My Notes</h2>
+    <h2 class="text-xl font-semibold text-white sm:text-3xl">Favorited</h2>
     <!-- action button -->
-    <div x-data="{ open: false }" class="mt-2 flex">
-      <button @click="open = !open" class="bg-bactive mr-2 flex items-center rounded-md px-2 py-1 text-white">
-        <svg class="mr-1.5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z">
-          </path>
-        </svg>
-        <span class="text-sm">New Folder</span>
-      </button>
-      <button class="bg-bactive flex items-center rounded-md px-2 py-1 text-white">
-        <svg class="mr-1.5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z">
-          </path>
-        </svg>
-        <span class="text-sm">New Note</span>
-      </button>
-      <!-- modal for create new folder -->
-      <template x-teleport="body">
-        <x-modal url="/folder" title="Create New Folder" confirm="Create">
-          <svg fill="none" class="mx-auto mt-2 w-20 text-white" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z">
-            </path>
-          </svg>
-          <div class="relative mt-2">
-            <input type="text" id="folder_create" name="folder" placeholder=" "
-              class="peer w-full rounded-md border border-gray-400 bg-transparent p-1 tracking-wide text-white outline-none transition-all focus:border-white" />
-            <label for="folder_create"
-              class="bg-gactive peer-focus:bg-gactive absolute -top-3 left-2 origin-[0] scale-75 px-2 text-gray-400 transition-all peer-placeholder-shown:left-0 peer-placeholder-shown:top-1.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:left-2 peer-focus:scale-75 peer-focus:text-white">Folder
-              Name</label>
-            <span class="mt-0.5 hidden text-sm text-gray-400">Checking folder name...</span>
-          </div>
-        </x-modal>
-      </template>
-    </div>
-    @if ($folders->count() > 0 && $notes->count() > 0)
+    @if ($folders->count() > 0 || $notes->count() > 0)
       <!-- Notes -->
       <div class="mt-8">
         <h3 class="text-gtext">Notes</h3>
@@ -51,7 +15,7 @@
             <x-note :note="$note">
               <!-- action menu -->
               <ul class="space-y-3">
-                <!-- add to favorite -->
+                <!-- remove from favorite -->
                 <li>
                   <form class="block" action="{{ route('favorites.note') }}" method="post">
                     @method('PATCH')
@@ -63,7 +27,7 @@
                           d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
                         </path>
                       </svg>
-                      <span>{{ $note->is_favorited ? 'Unfavorite' : 'Add to Favorite' }}</span>
+                      <span>Unfavorite</span>
                     </button>
                   </form>
                 </li>
@@ -126,17 +90,17 @@
               <ul class="space-y-3">
                 <!-- add to favorite -->
                 <li>
-                  <form class="block" action="{{ route('favorites.folder') }}" method="post">
+                  <form class="block" action="/favourites/note" method="post">
                     @method('PATCH')
                     @csrf
-                    <input type="hidden" name="folder_id" value="{{ $folder->id }}">
+                    <input type="hidden" value="$folder->id">
                     <button type="submit" class="flex w-full items-center">
                       <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                           d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
                         </path>
                       </svg>
-                      <span>{{ $folder->is_favorited ? 'Unfavorite' : 'Add to Favorite' }}</span>
+                      <span>Unfavorite</span>
                     </button>
                   </form>
                 </li>
@@ -208,10 +172,10 @@
         </div>
       </div>
     @else
-      <x-info title="You dont have any note or folder" subtitle="Try creating a new note or folder by clicking the blue button above">
+      <x-info title="You dont have any favorited note or folder" subtitle="You can favorite a folder or note to make it easier to search">
         <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round"
-            d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z">
+            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
           </path>
         </svg>
       </x-info>

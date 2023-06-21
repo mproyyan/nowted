@@ -47,4 +47,9 @@ class Folder extends Model
             ->where('deleted_at', '=', null)
             ->where('parent_folder', '=', null);
     }
+
+    public function scopeFavorited(Builder $query): void
+    {
+        $query->where('is_favorited', '=', true);
+    }
 }

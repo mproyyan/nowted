@@ -40,6 +40,11 @@ class Note extends Model
             ->where('folder_id', '=', null);
     }
 
+    public function scopeFavorited(Builder $query): void
+    {
+        $query->where('is_favorited', '=', true);
+    }
+
     public function getExcerpt(): string
     {
         $excerpt = $this->attributes['content'] ?? '';
