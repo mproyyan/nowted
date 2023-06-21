@@ -28,7 +28,12 @@ class FavoriteController extends Controller
         $note->is_favorited = !$note->is_favorited;
         $note->save();
 
-        return redirect()->back();
+        $message = 'The item was successfully added to the favorites list!';
+        if (!$note->is_favorited) {
+            $message = 'The item was successfully removed from the favorites list';
+        }
+
+        return redirect()->back()->with('fm.favorite', $message);
     }
 
     public function folder(Request $request)
@@ -42,7 +47,12 @@ class FavoriteController extends Controller
         $this->nestedFavoriteNotes($folder);
         $this->nestedFavoriteFolders($folder->is_favorited, $folder->children);
 
-        return redirect()->back();
+        $message = 'The item was successfully added to the favorites list!';
+        if (!$folder->is_favorited) {
+            $message = 'The item was successfully removed from the favorites list';
+        }
+
+        return redirect()->back()->with('fm.favorite', $message);
     }
 
     private function nestedFavoriteFolders(Bool $parentStatus, Collection $children)

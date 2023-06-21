@@ -11,7 +11,7 @@
 </head>
 
 <body class="bg-primary">
-  <div class="mx-auto sm:max-w-2xl md:max-w-4xl lg:max-w-5xl">
+  <div id="container" class="mx-auto sm:max-w-2xl md:max-w-4xl lg:max-w-5xl relative">
     <!-- Header -->
     <section class="w-full">
       <div x-data="{ open: false, get isOpen() { return window.innerWidth >= 640 ? true : this.open } }" class="relative items-center justify-between px-4 py-2 sm:flex lg:py-4">

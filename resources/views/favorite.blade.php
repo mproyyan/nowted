@@ -181,4 +181,14 @@
       </x-info>
     @endif
   </div>
+
+  @if(session('fm'))
+  <template x-data x-teleport="#container">
+    <div class="fixed top-4 right-0 px-4 space-x-2">
+      @if(session('fm.favorite'))
+      <x-toast type="success" :message="session('fm.favorite')" />
+      @endif
+    </div>
+  </template>
+  @endif
 @endsection
