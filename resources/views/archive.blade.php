@@ -3,7 +3,7 @@
 @section('content')
   <div class="px-4">
     <!-- Page Title -->
-    <h2 class="text-xl font-semibold text-white sm:text-3xl">Favorited</h2>
+    <h2 class="text-xl font-semibold text-white sm:text-3xl">Archived</h2>
     <!-- action button -->
     @if ($folders->count() > 0 || $notes->count() > 0)
       <!-- Notes -->
@@ -15,23 +15,6 @@
             <x-note :note="$note">
               <!-- action menu -->
               <ul class="space-y-3">
-                <!-- remove from favorite -->
-                <li>
-                  <form class="block" action="{{ route('favorites.note') }}" method="post">
-                    @method('PATCH')
-                    @csrf
-                    <input type="hidden" name="note_id" value="{{ $note->id }}">
-                    <button type="submit" class="flex w-full items-center">
-                      <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
-                        </path>
-                      </svg>
-                      <span>Unfavorite</span>
-                    </button>
-                  </form>
-                </li>
-
                 <!-- edit button -->
                 <a href="#" class="block">
                   <li class="flex items-center">
@@ -56,7 +39,7 @@
                           d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z">
                         </path>
                       </svg>
-                      <span>Archive</span>
+                      <span>Unarchive</span>
                     </button>
                   </form>
                 </li>
@@ -89,23 +72,6 @@
           @foreach ($folders as $folder)
             <x-folder :id="$folder->id" :name="$folder->name">
               <ul class="space-y-3">
-                <!-- add to favorite -->
-                <li>
-                  <form class="block" action="/favourites/note" method="post">
-                    @method('PATCH')
-                    @csrf
-                    <input type="hidden" value="$folder->id">
-                    <button type="submit" class="flex w-full items-center">
-                      <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
-                        </path>
-                      </svg>
-                      <span>Unfavorite</span>
-                    </button>
-                  </form>
-                </li>
-
                 <!-- edit button -->
                 <li x-data="{ open: false }">
                   <button @click="open = !open" type="submit" class="flex w-full items-center">
@@ -148,7 +114,7 @@
                           d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z">
                         </path>
                       </svg>
-                      <span>Archive</span>
+                      <span>Unarchive</span>
                     </button>
                   </form>
                 </li>
@@ -174,10 +140,10 @@
         </div>
       </div>
     @else
-      <x-info title="You dont have any favorited note or folder" subtitle="You can favorite a folder or note to make it easier to search">
+      <x-info title="You dont have any archived note or folder" subtitle="Archiving a note or folder is useful for sorting which items are rarely used or even not used anymore">
         <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round"
-            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z">
+            d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776">
           </path>
         </svg>
       </x-info>
@@ -187,9 +153,6 @@
   @if (session('fm'))
     <template x-data x-teleport="#container">
       <div class="fixed top-4 right-0 space-x-2 px-4">
-        @if (session('fm.favorite'))
-          <x-toast type="success" :message="session('fm.favorite')" />
-        @endif
         @if (session('fm.archive'))
           <x-toast type="success" :message="session('fm.archive')" />
         @endif

@@ -45,6 +45,11 @@ class Note extends Model
         $query->where('is_favorited', '=', true);
     }
 
+    public function scopeArchived(Builder $query): void
+    {
+        $query->where('is_archived', '=', true);
+    }
+
     public function getExcerpt(): string
     {
         $excerpt = $this->attributes['content'] ?? '';

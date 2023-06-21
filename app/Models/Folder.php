@@ -52,4 +52,9 @@ class Folder extends Model
     {
         $query->where('is_favorited', '=', true);
     }
+
+    public function scopeArchived(Builder $query): void
+    {
+        $query->where('is_archived', '=', true);
+    }
 }

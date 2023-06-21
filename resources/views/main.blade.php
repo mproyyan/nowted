@@ -80,11 +80,12 @@
                   </li>
                 </a>
 
-                <!-- archive action -->
+                <!-- note archive action -->
                 <li>
-                  <form class="block" action="/favourites/note" method="post">
+                  <form class="block" action="{{ route('archives.note') }}" method="post">
                     @method('PATCH')
                     @csrf
+                    <input type="hidden" name="note_id" value="{{ $note->id }}">
                     <button type="submit" class="flex w-full items-center">
                       <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -124,7 +125,7 @@
           @foreach ($folders as $folder)
             <x-folder :id="$folder->id" :name="$folder->name">
               <ul class="space-y-3">
-                <!-- add to favorite -->
+                <!-- add folder to favorite -->
                 <li>
                   <form class="block" action="{{ route('favorites.folder') }}" method="post">
                     @method('PATCH')
@@ -141,7 +142,7 @@
                   </form>
                 </li>
 
-                <!-- edit button -->
+                <!-- folder edit button -->
                 <li x-data="{ open: false }">
                   <button @click="open = !open" type="submit" class="flex w-full items-center">
                     <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -171,11 +172,12 @@
                   </template>
                 </li>
 
-                <!-- archive action -->
+                <!-- folder archive action -->
                 <li>
-                  <form class="block" action="/favourites/note" method="post">
+                  <form class="block" action="{{ route('archives.folder') }}" method="post">
                     @method('PATCH')
                     @csrf
+                    <input type="hidden" name="folder_id" value="{{ $folder->id }}">
                     <button type="submit" class="flex w-full items-center">
                       <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -223,6 +225,9 @@
       <div class="fixed top-4 right-0 px-4 space-x-2">
         @if(session('fm.favorite'))
           <x-toast type="success" :message="session('fm.favorite')" />
+        @endif
+        @if(session('fm.archive'))
+          <x-toast type="success" :message="session('fm.archive')" />
         @endif
       </div>
     </template>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,10 @@ Route::prefix('favorites')->name('favorites')->group(function () {
     Route::get('/', [FavoriteController::class, 'index']);
     Route::patch('/note', [FavoriteController::class, 'note'])->name('.note');
     Route::patch('/folder', [FavoriteController::class, 'folder'])->name('.folder');
+});
+
+Route::prefix('archives')->name('archives')->group(function () {
+    Route::get('/', [ArchiveController::class, 'index']);
+    Route::patch('/note', [ArchiveController::class, 'note'])->name('.note');
+    Route::patch('/folder', [ArchiveController::class, 'folder'])->name('.folder');
 });
