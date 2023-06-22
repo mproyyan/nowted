@@ -41,7 +41,7 @@
         </x-modal>
       </template>
     </div>
-    @if ($folders->count() > 0 && $notes->count() > 0)
+    @if ($folders->count() > 0 || $notes->count() > 0)
       <!-- Notes -->
       <div class="mt-8">
         <h3 class="text-gtext">Notes</h3>
@@ -51,7 +51,7 @@
             <x-note :note="$note">
               <!-- action menu -->
               <ul class="space-y-3">
-                <!-- add to favorite -->
+                <!-- note add to favorite -->
                 <li>
                   <form class="block" action="{{ route('favorites.note') }}" method="post">
                     @method('PATCH')
@@ -68,7 +68,7 @@
                   </form>
                 </li>
 
-                <!-- edit button -->
+                <!-- note edit button -->
                 <a href="#" class="block">
                   <li class="flex items-center">
                     <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -97,11 +97,12 @@
                   </form>
                 </li>
 
-                <!-- delete action button -->
+                <!-- note delete action button -->
                 <li>
-                  <form class="block" action="/favourites/note" method="post">
-                    @method('DELETE')
+                  <form class="block" action="{{ route('trash.note') }}" method="post">
+                    @method('PATCH')
                     @csrf
+                    <input type="hidden" name="note_id" value="{{ $note->id }}">
                     <button type="submit" class="flex w-full items-center">
                       <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -189,11 +190,12 @@
                   </form>
                 </li>
 
-                <!-- delete action button -->
+                <!-- folder delete action button -->
                 <li>
-                  <form class="block" action="/favourites/note" method="post">
-                    @method('DELETE')
+                  <form class="block" action="{{ route('trash.folder') }}" method="post">
+                    @method('PATCH')
                     @csrf
+                    <input type="hidden" name="folder_id" value="{{ $folder->id }}">
                     <button type="submit" class="flex w-full items-center">
                       <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -228,6 +230,9 @@
         @endif
         @if(session('fm.archive'))
           <x-toast type="success" :message="session('fm.archive')" />
+        @endif
+        @if(session('fm.trash'))
+          <x-toast type="success" :message="session('fm.trash')" />
         @endif
       </div>
     </template>
