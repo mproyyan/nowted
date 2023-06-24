@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ asset('css/output.css') }}" />
   @vite('resources/js/app.js')
+  @livewireStyles
   <title>Nowted</title>
 </head>
 
@@ -71,6 +72,8 @@
 
     <!-- margin helper -->
     <div class="mt-10"></div>
+
+    @livewireScripts
   </div>
 </body>
 
