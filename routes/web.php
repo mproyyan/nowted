@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\TrashController;
+use App\Models\Folder;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +39,10 @@ Route::prefix('trash')->name('trash')->group(function () {
     Route::patch('/folder', [TrashController::class, 'folder'])->name('.folder');
     Route::delete('/note/permanently', [TrashController::class, 'deleteNote'])->name('.note.permanent');
     Route::delete('/folder/permanently', [TrashController::class, 'deleteFolder'])->name('.folder.permanent');
+});
+
+Route::prefix('folders')->name('folder')->group(function () {
+    Route::post('/', [FolderController::class, 'create'])->name('.create');
+    Route::patch('/', [FolderController::class, 'update'])->name('.update');
+    Route::get('/{id}', [FolderController::class, 'view'])->name('.detail');
 });

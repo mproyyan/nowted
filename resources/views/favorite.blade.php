@@ -117,22 +117,18 @@
                     </svg>
                     <span>Edit</span>
                   </button>
-                  <!-- folder modal for edit folder -->
+                  <!-- modal for edit folder -->
                   <template x-teleport="body">
-                    <x-modal url="/folder" title="Rename Folder" confirm="Rename">
+                    <x-modal :url="route('folder.update')" title="Edit Folder" confirm="Save Changes">
+                      @csrf
+                      @method('PATCH')
+                      <input type="hidden" name="old_folder" value="{{ $folder->id }}">
                       <svg fill="none" class="mx-auto mt-2 w-20 text-white" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                           d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z">
                         </path>
                       </svg>
-                      <div class="relative mt-2">
-                        <input type="text" id="folder_rename_{{ $folder->id }}" name="folder" value="{{ $folder->name }}" placeholder=" "
-                          class="peer w-full rounded-md border border-gray-400 bg-transparent p-1 tracking-wide text-white outline-none transition-all focus:border-white" />
-                        <label for="folder_rename_{{ $folder->id }}"
-                          class="bg-gactive peer-focus:bg-gactive absolute -top-3 left-2 origin-[0] scale-75 px-2 text-gray-400 transition-all peer-placeholder-shown:left-0 peer-placeholder-shown:top-1.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:left-2 peer-focus:scale-75 peer-focus:text-white">Folder
-                          Name</label>
-                        <span class="mt-0.5 hidden text-sm text-gray-400">Checking folder name...</span>
-                      </div>
+                      <livewire:update-folder :folders="$folderIds" :currentFolder="$folder" />
                     </x-modal>
                   </template>
                 </li>

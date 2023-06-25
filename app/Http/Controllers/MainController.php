@@ -16,10 +16,12 @@ class MainController extends Controller
     {
         $notes = Note::root()->get();
         $folders = Folder::root()->get();
+        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
 
         return view("main", [
             'notes' => $notes,
-            'folders' => $folders
+            'folders' => $folders,
+            'folderIds' => $folderIds,
         ]);
     }
 }

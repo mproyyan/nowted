@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ asset('css/output.css') }}" />
+  <style>[x-cloak] { display: none !important; }</style>
   @vite('resources/js/app.js')
   @livewireStyles
   <title>Nowted</title>
@@ -72,9 +73,9 @@
 
     <!-- margin helper -->
     <div class="mt-10"></div>
-
-    @livewireScripts
   </div>
+
+  @livewireScripts
 </body>
 
 </html>

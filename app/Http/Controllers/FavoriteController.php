@@ -13,10 +13,12 @@ class FavoriteController extends Controller
     {
         $notes = Note::root()->favorited()->get();
         $folders =  Folder::root()->favorited()->get();
+        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
 
         return view('favorite', [
             'notes' => $notes,
-            'folders' => $folders
+            'folders' => $folders,
+            'folderIds' => $folderIds
         ]);
     }
 
