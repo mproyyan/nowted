@@ -3,11 +3,11 @@
 @section('content')
   <div class="px-4">
     <!-- Page Title -->
-    <div class="text-gtext mb-2 flex w-fit items-center space-x-1 transition-all hover:text-white">
-      <svg class="w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <div class="group text-gtext mb-2 flex w-fit items-center transition-all">
+      <svg class="w-5 transition-all group-hover:text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
       </svg>
-      <h5 class="text-sm">
+      <h5 class="text-sm transition-all transform group-hover:translate-x-2 group-hover:text-white">
         @if ($currentFolder->parent_folder)
           <a href="{{ route('folder.detail', ['id' => $currentFolder->parent_folder]) }}">Back to parent folder</a>
         @else
