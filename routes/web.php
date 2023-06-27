@@ -49,5 +49,6 @@ Route::prefix('folders')->name('folder')->group(function () {
 });
 
 Route::prefix('notes')->name('note')->group(function () {
+    Route::get('/', [NoteController::class, 'create'])->name('.create');
     Route::get('/{id}', [NoteController::class, 'view'])->name('.detail');
 });

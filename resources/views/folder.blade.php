@@ -3,11 +3,11 @@
 @section('content')
   <div class="px-4">
     <!-- Page Title -->
-    <div class="group text-gtext mb-2 flex w-fit items-center transition-all">
+    <div class="text-gtext group mb-2 flex w-fit items-center transition-all">
       <svg class="w-5 transition-all group-hover:text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
       </svg>
-      <h5 class="text-sm transition-all transform group-hover:translate-x-2 group-hover:text-white">
+      <h5 class="transform text-sm transition-all group-hover:translate-x-2 group-hover:text-white">
         @if ($currentFolder->parent_folder)
           <a href="{{ route('folder.detail', ['id' => $currentFolder->parent_folder]) }}">Back to parent folder</a>
         @else
@@ -192,14 +192,14 @@
           </svg>
           <span class="text-sm">New Folder</span>
         </button>
-        <button class="bg-bactive flex items-center rounded-md px-2 py-1 text-white">
+        <a href="{{ route('note.create', ['folder' => $currentFolder->id]) }}" class="bg-bactive flex items-center rounded-md px-2 py-1 text-white">
           <svg class="mr-1.5 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z">
             </path>
           </svg>
           <span class="text-sm">New Note</span>
-        </button>
+        </a>
         <!-- modal for create new folder -->
         <x-modal :url="route('folder.create')" title="Create New Folder" confirm="Create">
           @csrf
@@ -246,8 +246,7 @@
                   <!-- edit button -->
                   <a href="#" class="block">
                     <li class="flex items-center">
-                      <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
                           d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10">
                         </path>
@@ -316,8 +315,7 @@
                             d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z">
                           </path>
                         </svg>
-                        <h4 class="mt-2 text-center text-lg text-gray-300">Are you sure that you want to permanently delete <span
-                            class="font-semibold text-white">{{ $note->title }}</span>?</h4>
+                        <h4 class="mt-2 text-center text-lg text-gray-300">Are you sure that you want to permanently delete <span class="font-semibold text-white">{{ $note->title }}</span>?</h4>
                         <p class="mt-2 text-center text-sm text-gray-400">If you delete a note, the note will be lost permanently</p>
                       </x-modal>
                     </template>
@@ -502,27 +500,22 @@
       </div>
     @else
       @if (!$currentFolder->is_favorited && !$currentFolder->is_archived && !$currentFolder->trashed())
-        <x-info title="You dont have any note or folder"
-          subtitle="Try creating a new note or folder by clicking the blue button above">
-          <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <x-info title="You dont have any note or folder" subtitle="Try creating a new note or folder by clicking the blue button above">
+          <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z">
             </path>
           </svg>
         </x-info>
       @else
-        <x-info title="Folder empty"
-          subtitle="You can group and organize files by placing them into a folder for easy searching">
-          <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true">
+        <x-info title="Folder empty" subtitle="You can group and organize files by placing them into a folder for easy searching">
+          <svg class="mx-auto w-20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776">
             </path>
           </svg>
         </x-info>
       @endif
-      
     @endif
   </div>
 
