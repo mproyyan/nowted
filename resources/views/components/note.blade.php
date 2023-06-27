@@ -8,7 +8,7 @@
         </path>
       </svg>
       <div>
-        <a href="#">
+        <a href="{{ route('note.detail', ['id' => $note->id]) }}">
           <h4 class="font-semibold text-white">{{ $note->title }}</h4>
         </a>
         <span class="text-xs text-slate-400">{{ $note->created_at->format('d/m/Y') }}</span>

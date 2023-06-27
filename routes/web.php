@@ -4,6 +4,7 @@ use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TrashController;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,8 @@ Route::prefix('folders')->name('folder')->group(function () {
     Route::post('/', [FolderController::class, 'create'])->name('.create');
     Route::patch('/', [FolderController::class, 'update'])->name('.update');
     Route::get('/{id}', [FolderController::class, 'view'])->name('.detail');
+});
+
+Route::prefix('notes')->name('note')->group(function () {
+    Route::get('/{id}', [NoteController::class, 'view'])->name('.detail');
 });
