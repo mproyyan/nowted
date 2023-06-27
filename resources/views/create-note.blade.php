@@ -3,9 +3,9 @@
 @section('content')
   <div class="mt-3 px-4">
     <h3 class="mb-6 text-xl font-semibold text-white md:text-3xl">Create New Note</h3>
-    <form action="/" method="post">
-        @csrf
-      <div class="space-y-8 sm:space-y-5">
+    <form action="/" method="post" class="w-full">
+      @csrf
+      <div class="space-y-8 sm:space-y-5 w-full">
         <!-- title field -->
         <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
           <input id="title" name="title" type="text" placeholder=" "
@@ -40,7 +40,7 @@
           </div>
         </div>
         <!-- date field -->
-        <div class="relative sm:grid sm:grid-cols-5">
+        <div class="relative sm:grid sm:grid-cols-5 w-full">
           <input name="date" type="date" id="date"
             class="border-tertiary bg-tertiary peer w-full rounded-md border-2 bg-transparent p-1 text-white outline-none transition-all focus:border-white sm:col-start-2 sm:col-end-6" />
           <div
@@ -53,6 +53,10 @@
             <label for="date" class="md:font-semibold">Date</label>
           </div>
         </div>
+        <!-- ckeditor -->
+        <textarea name="content" id="ckeditor-input" cols="30" rows="10" class="prose max-w-none">
+          <strong>this is text</strong>
+        </textarea>
       </div>
       <button type="submit" class="bg-bactive mx-auto mt-8 w-full rounded-md p-2 text-white sm:w-fit sm:px-5">
         <span>Create Note</span>
@@ -60,3 +64,9 @@
     </form>
   </div>
 @endsection
+
+@push('scripts')
+  <script>
+    
+  </script>
+@endpush

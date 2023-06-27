@@ -9,6 +9,7 @@
   <style>[x-cloak] { display: none !important; }</style>
   @vite('resources/js/app.js')
   @livewireStyles
+  @stack('styles')
   <title>Nowted</title>
 </head>
 
@@ -76,6 +77,7 @@
   </div>
 
   @livewireScripts
+  @stack('scripts')
 </body>
 
 </html>
