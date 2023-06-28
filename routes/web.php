@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FavoriteController;
@@ -26,6 +27,11 @@ Route::middleware('guest')->group(function () {
     Route::name('register')->prefix('register')->group(function () {
         Route::get('/', [RegisterController::class, 'view']);
         Route::post('/', [RegisterController::class, 'register'])->name('.action');
+    });
+
+    Route::name('login')->prefix('login')->group(function () {
+        Route::get('/', [LoginController::class, 'view']);
+        Route::post('/', [LoginController::class, 'authenticate'])->name('.auth');
     });
 });
 
