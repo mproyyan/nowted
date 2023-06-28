@@ -37,4 +37,28 @@ class NoteController extends Controller
         $note = Note::create($validated);
         return redirect()->route('note.detail', ['id' => $note->id])->with('fm.folder-success', 'Note create successfully!');
     }
+
+    public function edit($id)
+    {
+        $note = Note::findOrFail($id);
+        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
+        return view('edit-note', [
+            'folders' => $folderIds,
+            'note' => $note
+        ]);
+    }
+
+    public function update(Request $req, $id)
+    {
+        $note = Note::findOrFail($id);
+        $validated = $req->validate([
+            'title' => 'required',
+            'created_at' => 'date|required',
+            'folder_id' => 'nullable|exists:App\Models\Folder,id'
+        ]);
+
+        $validated['content'] = request('content');
+        $note->update($validated);
+        return redirect()->route('note.detail', ['id' => $note->id])->with('fm.folder-success', 'Note create successfully!');
+    }
 }

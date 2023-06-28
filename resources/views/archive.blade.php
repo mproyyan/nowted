@@ -16,7 +16,7 @@
               <!-- action menu -->
               <ul class="space-y-3">
                 <!-- note edit button -->
-                <a href="#" class="block">
+                <a href="{{ route('note.edit', ['id' => $note->id]) }}" class="block">
                   <li class="flex items-center">
                     <svg class="mr-2 w-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round"

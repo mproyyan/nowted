@@ -52,4 +52,6 @@ Route::prefix('notes')->name('note')->group(function () {
     Route::get('/', [NoteController::class, 'create'])->name('.create');
     Route::post('/', [NoteController::class, 'insert'])->name('.insert');
     Route::get('/{id}', [NoteController::class, 'view'])->name('.detail');
+    Route::get('/{id}/edit', [NoteController::class, 'edit'])->name('.edit');
+    Route::patch('/{id}/update', [NoteController::class, 'update'])->name('.update');
 });

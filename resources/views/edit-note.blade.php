@@ -2,14 +2,15 @@
 
 @section('content')
   <div class="mt-3 px-4">
-    <h3 class="mb-6 text-xl font-semibold text-white md:text-3xl">Create New Note</h3>
-    <form action="{{ route('note.insert') }}" method="post" class="w-full">
+    <h3 class="mb-6 text-xl font-semibold text-white md:text-3xl">Edit Mode</h3>
+    <form action="{{ route('note.update', ['id' => $note->id]) }}" method="post" class="w-full">
       @csrf
+      @method('PATCH')
       <div class="w-full space-y-8 sm:space-y-5">
         <!-- title field -->
         <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
           <div class="sm:col-start-2 sm:col-end-6">
-            <input id="title" name="title" type="text" placeholder=" " value="{{ old('title') ?? null }}"
+            <input id="title" name="title" type="text" placeholder=" " value="{{ old('title') ?? $note->title }}"
               class="border-tertiary peer w-full border-b-2 bg-transparent py-1 tracking-wide text-white outline-none transition-all focus:border-white" />
             @error('title')
               <span class="text-sm text-red-500">{{ $message }}</span>
@@ -25,33 +26,40 @@
             <label for="title" class="md:font-semibold">Title</label>
           </div>
         </div>
-        <!-- folder field -->
-        <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
-          <div class="sm:col-start-2 sm:col-end-6">
-            <select name="folder_id" id="folder" class="border-tertiary bg-tertiary peer w-full rounded-md border-2 py-1 text-white outline-none transition-all focus:border-white">
-              <option value="{{ null }}">Root</option>
-              @foreach ($folders as $folder)
-                <option {{ $parent === $folder->id ? 'selected' : '' }} value="{{ $folder->id }}">{{ $folder->name }}</option>
-              @endforeach
-            </select>
-            @error('folder_id')
-              <span class="text-sm text-red-500">{{ $message }}</span>
-            @enderror
+
+        @if ($note->is_archived)
+            <input type="hidden" name="folder_id" value="{{ $note->folder_id }}">
+        @endif
+
+        @if (!$note->is_archived && !$note->trashed())
+          <!-- folder field -->
+          <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
+            <div class="sm:col-start-2 sm:col-end-6">
+              <select name="folder_id" id="folder" class="border-tertiary bg-tertiary peer w-full rounded-md border-2 py-1 text-white outline-none transition-all focus:border-white">
+                <option value="{{ null }}">Root</option>
+                @foreach ($folders as $folder)
+                  <option {{ $note->folder_id === $folder->id ? 'selected' : '' }} value="{{ $folder->id }}">{{ $folder->name }}</option>
+                @endforeach
+              </select>
+              @error('folder_id')
+                <span class="text-sm text-red-500">{{ $message }}</span>
+              @enderror
+            </div>
+            <div
+              class="absolute -top-6 left-0 origin-[0] scale-75 text-slate-400 transition-all peer-focus:text-white sm:static sm:col-start-1 sm:row-start-1 sm:scale-100 md:flex md:items-center md:space-x-1">
+              <svg class="hidden w-5 md:block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z">
+                </path>
+              </svg>
+              <label for="folder" class="md:font-semibold">Folder</label>
+            </div>
           </div>
-          <div
-            class="absolute -top-6 left-0 origin-[0] scale-75 text-slate-400 transition-all peer-focus:text-white sm:static sm:col-start-1 sm:row-start-1 sm:scale-100 md:flex md:items-center md:space-x-1">
-            <svg class="hidden w-5 md:block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z">
-              </path>
-            </svg>
-            <label for="folder" class="md:font-semibold">Folder</label>
-          </div>
-        </div>
+        @endif
         <!-- date field -->
         <div class="relative w-full sm:grid sm:grid-cols-5">
           <div class="sm:col-start-2 sm:col-end-6">
-            <input name="created_at" type="date" id="date" value="{{ old('created_at') ?? now()->format('Y-m-d') }}"
+            <input name="created_at" type="date" id="date" value="{{ old('created_at') ?? $note->created_at->format('Y-m-d') }}"
               class="border-tertiary bg-tertiary peer w-full rounded-md border-2 bg-transparent p-1 text-white outline-none transition-all focus:border-white" />
             @error('created_at')
               <span class="text-sm text-red-500">{{ $message }}</span>
@@ -68,12 +76,12 @@
           </div>
         </div>
         <!-- ckeditor -->
-        <textarea name="content" id="ckeditor-input" cols="30" rows="3" class="prose max-w-none w-full">
-          {!! old('content') ?? null !!}
+        <textarea name="content" id="ckeditor-input" cols="30" rows="3" class="prose w-full max-w-none">
+          {!! old('content') ?? $note->content !!}
         </textarea>
       </div>
       <button type="submit" class="bg-bactive mx-auto mt-8 w-full rounded-md p-2 text-white sm:w-fit sm:px-5">
-        <span>Create Note</span>
+        <span>Save Changes</span>
       </button>
     </form>
   </div>
