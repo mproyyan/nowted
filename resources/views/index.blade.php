@@ -28,9 +28,9 @@
           </svg>
         </div>
         <!-- sidebar -->
-        <div x-show="isOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+        <div x-show="isOpen" x-cloak x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
           x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-          class="bg-gactive sm:text-gtext absolute right-5 top-12 w-fit rounded-md px-4 py-2 pr-10 text-sm text-white sm:static sm:block sm:bg-transparent sm:pr-0">
+          class="bg-gactive sm:text-gtext absolute z-40 right-5 top-12 w-fit rounded-md px-4 py-2 pr-10 text-sm text-white sm:static sm:block sm:bg-transparent sm:pr-0">
           <ul class="sm:flex">
             <a href="{{ route('favorites') }}" class="">
               <li class="mb-3 flex items-center sm:mr-8 sm:hover:text-white md:mr-12 md:font-semibold {{ request()->is('favorites') ? 'text-white' : '' }}">

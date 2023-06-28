@@ -21,7 +21,7 @@
         </path>
       </svg>
       <!-- action menu -->
-      <div x-show="open" x-show @click.outside="open = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+      <div x-show="open" x-cloak x-show @click.outside="open = false" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
         x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
         class="bg-gactive absolute right-7 top-1/2 w-48 -translate-y-1/2 rounded-md px-4 py-2 text-sm text-white">
         {{ $slot }}
