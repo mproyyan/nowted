@@ -181,7 +181,7 @@
       </div>
     </div>
 
-    @if (!$currentFolder->is_favorited && !$currentFolder->is_archived && !$currentFolder->trashed())
+    @if (!$currentFolder->is_archived && !$currentFolder->trashed())
       <!-- action button -->
       <div x-data="{ open: false }" class="mt-2 flex">
         <button @click="open = !open" class="bg-bactive mr-2 flex items-center rounded-md px-2 py-1 text-white">
