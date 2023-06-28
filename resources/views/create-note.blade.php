@@ -68,7 +68,7 @@
           </div>
         </div>
         <!-- ckeditor -->
-        <textarea name="content" id="ckeditor-input" cols="30" rows="10" class="prose max-w-none">
+        <textarea name="content" id="ckeditor-input" cols="30" rows="3" class="prose max-w-none w-full">
           {!! old('content') ?? null !!}
         </textarea>
       </div>
