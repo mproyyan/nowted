@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FolderController;
@@ -27,6 +28,8 @@ Route::middleware('guest')->group(function () {
         Route::post('/', [RegisterController::class, 'register'])->name('.action');
     });
 });
+
+Route::post('logout', LogoutController::class)->middleware('auth')->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', MainController::class)->name("main");
