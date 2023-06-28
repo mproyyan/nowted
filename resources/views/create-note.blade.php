@@ -3,13 +3,18 @@
 @section('content')
   <div class="mt-3 px-4">
     <h3 class="mb-6 text-xl font-semibold text-white md:text-3xl">Create New Note</h3>
-    <form action="/" method="post" class="w-full">
+    <form action="{{ route('note.insert') }}" method="post" class="w-full">
       @csrf
-      <div class="space-y-8 sm:space-y-5 w-full">
+      <div class="w-full space-y-8 sm:space-y-5">
         <!-- title field -->
         <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
-          <input id="title" name="title" type="text" placeholder=" "
-            class="border-tertiary peer w-full border-b-2 bg-transparent py-1 tracking-wide text-white outline-none transition-all focus:border-white sm:col-start-2 sm:col-end-6" />
+          <div class="sm:col-start-2 sm:col-end-6">
+            <input id="title" name="title" type="text" placeholder=" " value="{{ old('title') ?? null }}"
+              class="border-tertiary peer w-full border-b-2 bg-transparent py-1 tracking-wide text-white outline-none transition-all focus:border-white" />
+            @error('title')
+              <span class="text-sm text-red-500">{{ $message }}</span>
+            @enderror
+          </div>
           <div
             class="absolute -top-4 left-0 origin-[0] scale-75 text-slate-400 transition-all peer-placeholder-shown:top-0 peer-placeholder-shown:scale-100 peer-focus:-top-4 peer-focus:scale-75 peer-focus:text-white sm:static sm:col-start-1 sm:row-start-1 sm:scale-100 sm:peer-focus:scale-100 md:flex md:items-center md:space-x-1">
             <svg class="hidden w-5 md:block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -22,13 +27,17 @@
         </div>
         <!-- folder field -->
         <div class="relative sm:grid sm:grid-cols-5 sm:items-center">
-          <select name="folder" id="folder"
-            class="border-tertiary bg-tertiary peer w-full rounded-md border-2 py-1 text-white outline-none transition-all focus:border-white sm:col-start-2 sm:col-end-6">
-            <option value="{{ null }}">Root</option>
-            @foreach ($folders as $folder)
-              <option {{ $parent === $folder->id ? 'selected' : '' }} value="{{ $folder->id }}">{{ $folder->name }}</option>
-            @endforeach
-          </select>
+          <div class="sm:col-start-2 sm:col-end-6">
+            <select name="folder_id" id="folder" class="border-tertiary bg-tertiary peer w-full rounded-md border-2 py-1 text-white outline-none transition-all focus:border-white">
+              <option value="{{ null }}">Root</option>
+              @foreach ($folders as $folder)
+                <option {{ $parent === $folder->id ? 'selected' : '' }} value="{{ $folder->id }}">{{ $folder->name }}</option>
+              @endforeach
+            </select>
+            @error('folder_id')
+              <span class="text-sm text-red-500">{{ $message }}</span>
+            @enderror
+          </div>
           <div
             class="absolute -top-6 left-0 origin-[0] scale-75 text-slate-400 transition-all peer-focus:text-white sm:static sm:col-start-1 sm:row-start-1 sm:scale-100 md:flex md:items-center md:space-x-1">
             <svg class="hidden w-5 md:block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -40,9 +49,14 @@
           </div>
         </div>
         <!-- date field -->
-        <div class="relative sm:grid sm:grid-cols-5 w-full">
-          <input name="date" type="date" id="date"
-            class="border-tertiary bg-tertiary peer w-full rounded-md border-2 bg-transparent p-1 text-white outline-none transition-all focus:border-white sm:col-start-2 sm:col-end-6" />
+        <div class="relative w-full sm:grid sm:grid-cols-5">
+          <div class="sm:col-start-2 sm:col-end-6">
+            <input name="created_at" type="date" id="date" value="{{ old('created_at' ?? now()->format('m/d/Y')) }}"
+              class="border-tertiary bg-tertiary peer w-full rounded-md border-2 bg-transparent p-1 text-white outline-none transition-all focus:border-white" />
+            @error('created_at')
+              <span class="text-sm text-red-500">{{ $message }}</span>
+            @enderror
+          </div>
           <div
             class="absolute -top-6 left-0 origin-[0] scale-75 text-slate-400 transition-all peer-focus:text-white sm:static sm:col-start-1 sm:row-start-1 sm:scale-100 md:flex md:items-center md:space-x-1">
             <svg class="hidden w-5 md:block" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -55,7 +69,7 @@
         </div>
         <!-- ckeditor -->
         <textarea name="content" id="ckeditor-input" cols="30" rows="10" class="prose max-w-none">
-          <strong>this is text</strong>
+          {!! old('content') ?? null !!}
         </textarea>
       </div>
       <button type="submit" class="bg-bactive mx-auto mt-8 w-full rounded-md p-2 text-white sm:w-fit sm:px-5">
@@ -66,7 +80,5 @@
 @endsection
 
 @push('scripts')
-  <script>
-    
-  </script>
+  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 @endpush

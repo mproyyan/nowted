@@ -9,7 +9,7 @@
       </svg>
       <h5 class="transform text-sm transition-all group-hover:translate-x-2 group-hover:text-white">
         @if ($note->folder_id)
-          <a href="{{ route('note.detail', ['id' => $note->folder_id]) }}">Back to parent folder</a>
+          <a href="{{ route('folder.detail', ['id' => $note->folder_id]) }}">Back to parent folder</a>
         @else
           <a href="{{ route('main') }}">Back to root folder</a>
         @endif
@@ -187,7 +187,7 @@
     @endif
 
     <!-- content -->
-    <div class="mt-4 text-white">
+    <div class="mt-4 text-white prose max-w-none prose-headings:text-white prose-strong:text-white prose-a:text-blue-600">
       {!! $note->content !!}
     </div>
   </div>

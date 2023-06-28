@@ -24,4 +24,17 @@ class NoteController extends Controller
             'parent' => $request->query('folder', '')
         ]);
     }
+
+    public function insert(Request $req)
+    {
+        $validated = $req->validate([
+            'title' => 'required',
+            'created_at' => 'date|required',
+            'folder_id' => 'nullable|exists:App\Models\Folder,id'
+        ]);
+
+        $validated['content'] = request('content');
+        $note = Note::create($validated);
+        return redirect()->route('note.detail', ['id' => $note->id])->with('fm.folder-success', 'Note create successfully!');
+    }
 }
