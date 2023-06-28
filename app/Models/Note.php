@@ -52,6 +52,7 @@ class Note extends Model
     public function getExcerpt(): string
     {
         $excerpt = $this->attributes['content'] ?? '';
+        $excerpt = strip_tags($excerpt);
         return Str::of($excerpt)->excerpt('', [
             'radius' => self::EXCERP_LENGTH
         ]);
