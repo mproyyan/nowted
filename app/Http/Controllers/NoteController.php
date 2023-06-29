@@ -10,7 +10,11 @@ class NoteController extends Controller
 {
     public function view($id)
     {
-        $note = Note::withTrashed()->findOrFail($id);
+        $userId = auth()->id();
+        $note = Note::withTrashed()
+            ->where('user_id', '=', $userId)
+            ->findOrFail($id);
+
         return view('note', [
             'note' => $note,
         ]);
@@ -18,7 +22,11 @@ class NoteController extends Controller
 
     public function create(Request $request)
     {
-        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
+        $userId = auth()->id();
+        $folderIds = Folder::where('is_archived', '=', false)
+            ->where('user_id', '=', $userId)
+            ->get(['id', 'name', 'parent_folder']);
+
         return view('create-note', [
             'folders' => $folderIds,
             'parent' => $request->query('folder', '')
@@ -27,6 +35,7 @@ class NoteController extends Controller
 
     public function insert(Request $req)
     {
+        $userId = auth()->id();
         $validated = $req->validate([
             'title' => 'required',
             'created_at' => 'date|required',
@@ -34,14 +43,19 @@ class NoteController extends Controller
         ]);
 
         $validated['content'] = request('content');
+        $validated['user_id'] = $userId;
         $note = Note::create($validated);
         return redirect()->route('note.detail', ['id' => $note->id])->with('fm.folder-success', 'Note create successfully!');
     }
 
     public function edit($id)
     {
-        $note = Note::findOrFail($id);
-        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
+        $userId = auth()->id();
+        $note = Note::where('user_id', '=', $userId)->findOrFail($id);
+        $folderIds = Folder::where('is_archived', '=', false)
+            ->where('user_id', '=', $userId)
+            ->get(['id', 'name', 'parent_folder']);
+
         return view('edit-note', [
             'folders' => $folderIds,
             'note' => $note
@@ -50,7 +64,8 @@ class NoteController extends Controller
 
     public function update(Request $req, $id)
     {
-        $note = Note::findOrFail($id);
+        $userId = auth()->id();
+        $note = Note::where('user_id', '=', $userId)->findOrFail($id);
         $validated = $req->validate([
             'title' => 'required',
             'created_at' => 'date|required',
@@ -58,6 +73,7 @@ class NoteController extends Controller
         ]);
 
         $validated['content'] = request('content');
+        $validated['user_id'] = $userId;
         $note->update($validated);
         return redirect()->route('note.detail', ['id' => $note->id])->with('fm.folder-success', 'Note create successfully!');
     }

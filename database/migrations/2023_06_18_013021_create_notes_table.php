@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('folder_id')->nullable(true);
             $table->foreign('folder_id')->references('id')->on('folders')->cascadeOnDelete()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('title', 100);
             $table->text('content')->nullable(true);
             $table->boolean('is_archived')->default(false);

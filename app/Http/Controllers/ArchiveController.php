@@ -11,8 +11,9 @@ class ArchiveController extends Controller
 {
     public function index()
     {
-        $notes = Note::where('folder_id', '=', null)->archived()->get();
-        $folders = Folder::where('parent_folder', '=', null)->archived()->get();
+        $userId = auth()->id();
+        $notes = Note::where('folder_id', '=', null)->where('user_id', '=', $userId)->archived()->get();
+        $folders = Folder::where('parent_folder', '=', null)->where('user_id', '=', $userId)->archived()->get();
 
         return view('archive', [
             'notes' => $notes,
@@ -22,8 +23,9 @@ class ArchiveController extends Controller
 
     public function note(Request $request)
     {
+        $userId = auth()->id();
         $noteId = $request->input('note_id', '');
-        $note = Note::findOrFail($noteId);
+        $note = Note::where('user_id', '=', $userId)->findOrFail($noteId);
 
         $note->update([
             'folder_id' => null,
@@ -41,8 +43,9 @@ class ArchiveController extends Controller
 
     public function folder(Request $request)
     {
+        $userId = auth()->id();
         $folderId = $request->input('folder_id', '');
-        $folder = Folder::findOrFail($folderId);
+        $folder = Folder::where('user_id', '=', $userId)->findOrFail($folderId);
 
         $folder->update([
             'parent_folder' => null,

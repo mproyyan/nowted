@@ -26,6 +26,11 @@ class Folder extends Model
         'deleted_at' => 'datetime',
     ];
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function children(): HasMany
     {
         return $this->hasMany(Folder::class, 'parent_folder');

@@ -27,6 +27,11 @@ class Note extends Model
         'deleted_at' => 'datetime',
     ];
 
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function folder(): BelongsTo
     {
         return $this->belongsTo(Folder::class, 'folder_id');

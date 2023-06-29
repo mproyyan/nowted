@@ -12,8 +12,9 @@ class TrashController extends Controller
 {
     public function index()
     {
-        $notes = Note::where('folder_id', '=', null)->onlyTrashed()->get();
-        $folders = Folder::where('parent_folder', '=', null)->onlyTrashed()->get();
+        $userId = auth()->id();
+        $notes = Note::where('folder_id', '=', null)->where('user_id', '=', $userId)->onlyTrashed()->get();
+        $folders = Folder::where('parent_folder', '=', null)->where('user_id', '=', $userId)->onlyTrashed()->get();
 
         return view('trash', [
             'notes' => $notes,
@@ -23,8 +24,9 @@ class TrashController extends Controller
 
     public function note(Request $request)
     {
+        $userId = auth()->id();
         $noteId = $request->input('note_id', '');
-        $note = Note::withTrashed()->findOrfail($noteId);
+        $note = Note::withTrashed()->where('user_id', '=', $userId)->findOrfail($noteId);
 
         $note->update([
             'folder_id' => null,
@@ -43,8 +45,9 @@ class TrashController extends Controller
 
     public function folder(Request $request)
     {
+        $userId = auth()->id();
         $folderId = $request->input('folder_id', '');
-        $folder = Folder::withTrashed()->findOrFail($folderId);
+        $folder = Folder::withTrashed()->where('user_id', '=', $userId)->findOrFail($folderId);
 
         $folder->update([
             'parent_folder' => null,
@@ -66,8 +69,9 @@ class TrashController extends Controller
 
     public function deleteNote(Request $request)
     {
+        $userId = auth()->id();
         $noteId = $request->input('note_id', '');
-        $note = Note::withTrashed()->findOrFail($noteId);
+        $note = Note::withTrashed()->where('user_id', '=', $userId)->findOrFail($noteId);
 
         $status = $note->forceDelete();
         if (!$status) {
@@ -79,8 +83,9 @@ class TrashController extends Controller
 
     public function deleteFolder(Request $request)
     {
+        $userId = auth()->id();
         $folderId = $request->input('folder_id', '');
-        $folder = Folder::withTrashed()->findOrFail($folderId);
+        $folder = Folder::withTrashed()->where('user_id', '=', $userId)->findOrFail($folderId);
 
         $status = $folder->forceDelete();
         if (!$status) {

@@ -10,6 +10,7 @@ class FolderController extends Controller
 {
     public function create(Request $request)
     {
+        $userId = auth()->id();
         $validator = Validator::make(['folder' => $request->input('folder')], [
             'folder' => 'required'
         ]);
@@ -23,6 +24,7 @@ class FolderController extends Controller
         $name = $request->input('folder');
         $parentFolder = $request->input('parent_folder');
         $folders = Folder::where('name', '=', $name)
+            ->where('user_id', '=', $userId)
             ->where('parent_folder', '=', $parentFolder)
             ->where('is_archived', '=', false)
             ->get('id');
@@ -33,6 +35,7 @@ class FolderController extends Controller
 
         Folder::create([
             'name' => $request->input('folder'),
+            'user_id' => $userId,
             'parent_folder' => $request->input('parent_folder')
         ]);
 
@@ -41,7 +44,8 @@ class FolderController extends Controller
 
     public function update(Request $request)
     {
-        $oldFolder = Folder::findOrFail($request->input('old_folder'));
+        $userId = auth()->id();
+        $oldFolder = Folder::where('user_id', '=', $userId)->findOrFail($request->input('old_folder'));
         $validator = Validator::make(['folder' => $request->input('folder')], [
             'folder' => 'required'
         ]);
@@ -54,14 +58,15 @@ class FolderController extends Controller
 
         $name = $request->input('folder');
         $parentFolder = $request->input('parent_folder');
-        $folder = Folder::where('name', '=', $name)
-            ->where('parent_folder', '=', $parentFolder)
-            ->where('is_archived', '=', false)
-            ->first('id');
-
         if ($oldFolder->name === $name && $oldFolder->parent_folder === $parentFolder) {
             return redirect()->back();
         }
+
+        $folder = Folder::where('name', '=', $name)
+            ->where('user_id', '=', $userId)
+            ->where('parent_folder', '=', $parentFolder)
+            ->where('is_archived', '=', false)
+            ->first('id');
 
         if (isset($folder)) {
             return redirect()->back()->with('fm.folder-exists', 'Folder with that name already exists');
@@ -81,9 +86,12 @@ class FolderController extends Controller
 
     public function view(Request $request, $id)
     {
-        $folder = Folder::withTrashed()->findOrFail($id);
-        $folderIds = Folder::withTrashed()->where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
-        // dd($folder->trashed());
+        $userId = auth()->id();
+        $folder = Folder::withTrashed()->where('user_id', '=', $userId)->findOrFail($id);
+        $folderIds = Folder::withTrashed()->where('is_archived', '=', false)
+            ->where('user_id', '=', $userId)
+            ->get(['id', 'name', 'parent_folder']);
+
         return view('folder', [
             'currentFolder' => $folder,
             'folders' => $folder->children()->withTrashed()->get(),

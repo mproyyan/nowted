@@ -11,9 +11,12 @@ class FavoriteController extends Controller
 {
     public function index()
     {
-        $notes = Note::root()->favorited()->get();
-        $folders =  Folder::root()->favorited()->get();
-        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
+        $userId = auth()->id();
+        $notes = Note::root()->favorited()->where('user_id', '=', $userId)->get();
+        $folders =  Folder::root()->favorited()->where('user_id', '=', $userId)->get();
+        $folderIds = Folder::where('is_archived', '=', false)
+            ->where('user_id', '=', $userId)
+            ->get(['id', 'name', 'parent_folder']);
 
         return view('favorite', [
             'notes' => $notes,
@@ -24,8 +27,9 @@ class FavoriteController extends Controller
 
     public function note(Request $request)
     {
+        $userId = auth()->id();
         $noteId = $request->input('note_id', '');
-        $note = Note::findOrFail($noteId);
+        $note = Note::where('user_id', '=', $userId)->findOrFail($noteId);
 
         $note->is_favorited = !$note->is_favorited;
         $note->save();
@@ -40,8 +44,9 @@ class FavoriteController extends Controller
 
     public function folder(Request $request)
     {
+        $userId = auth()->id();
         $folderId = $request->input('folder_id', '');
-        $folder = Folder::findOrFail($folderId);
+        $folder = Folder::where('user_id', '=', $userId)->findOrFail($folderId);
 
         $folder->is_favorited = !$folder->is_favorited;
         $folder->save();

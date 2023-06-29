@@ -14,9 +14,12 @@ class MainController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $notes = Note::root()->get();
-        $folders = Folder::root()->get();
-        $folderIds = Folder::where('is_archived', '=', false)->get(['id', 'name', 'parent_folder']);
+        $userId = auth()->id();
+        $notes = Note::root()->where('user_id', '=', $userId)->get();
+        $folders = Folder::root()->where('user_id', '=', $userId)->get();
+        $folderIds = Folder::where('is_archived', '=', false)
+            ->where('user_id', '=', $userId)
+            ->get(['id', 'name', 'parent_folder']);
 
         return view("main", [
             'notes' => $notes,
