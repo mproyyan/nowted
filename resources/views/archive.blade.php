@@ -156,7 +156,7 @@
 
   @if (session('fm'))
     <template x-data x-teleport="#container">
-      <div class="fixed top-4 right-0 space-x-2 px-4">
+      <div class="fixed z-[99999] top-4 right-0 space-x-2 px-4">
         @if (session('fm.archive'))
           <x-toast type="success" :message="session('fm.archive')" />
         @endif
