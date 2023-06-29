@@ -80,5 +80,5 @@
 @endsection
 
 @push('scripts')
-  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+  @vite('resources/js/ckeditor.js')
 @endpush

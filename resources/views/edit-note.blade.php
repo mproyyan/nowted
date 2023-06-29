@@ -28,7 +28,7 @@
         </div>
 
         @if ($note->is_archived)
-            <input type="hidden" name="folder_id" value="{{ $note->folder_id }}">
+          <input type="hidden" name="folder_id" value="{{ $note->folder_id }}">
         @endif
 
         @if (!$note->is_archived && !$note->trashed())
@@ -88,5 +88,5 @@
 @endsection
 
 @push('scripts')
-  <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+  @vite('resources/js/ckeditor.js')
 @endpush
