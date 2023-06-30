@@ -41,6 +41,7 @@ Thanks to [Codedesign](https://codedesign.dev/challenge/nowted-app) for the idea
 -   [Laravel 10](https://laravel.com/docs/10.x) - Framework
 -   [Livewire](https://laravel-livewire.com/) - Laravel Library
 -   [Alpine JS](https://alpinejs.dev/) - Javascript Framework
+-   [Tailwind CSS](https://tailwindcss.com/) - CSS Framework
 -   [MySQL](https://www.mysql.com/) - Database
 
 ## Screenshoots
