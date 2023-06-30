@@ -17,7 +17,7 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(rand(1, 6)),
+            'title' => fake()->sentence(rand(1, 3)),
             'content' => fake()->sentence(rand(50, 200)),
         ];
     }
