@@ -98,7 +98,7 @@
                         <input type="text" id="folder_rename_{{ $folder->id }}" name="folder" value="{{ $folder->name }}" placeholder=" "
                           class="peer w-full rounded-md border border-gray-400 bg-transparent p-1 tracking-wide text-white outline-none transition-all focus:border-white" />
                         <label for="folder_rename_{{ $folder->id }}"
-                          class="bg-gactive peer-focus:bg-gactive absolute -top-3 left-2 origin-[0] scale-75 px-2 text-gray-400 transition-all peer-placeholder-shown:left-0 peer-placeholder-shown:top-1.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:left-2 peer-focus:scale-75 peer-focus:text-white">Folder
+                          class="absolute -top-3 left-2 origin-[0] scale-75 bg-gactive px-2 text-gray-400 transition-all peer-placeholder-shown:left-0 peer-placeholder-shown:top-1.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-gray-400 peer-focus:-top-3 peer-focus:left-2 peer-focus:scale-75 peer-focus:bg-gactive peer-focus:text-white">Folder
                           Name</label>
                       </div>
                     </x-modal>
@@ -156,7 +156,7 @@
 
   @if (session('fm'))
     <template x-data x-teleport="#container">
-      <div class="fixed z-[99999] top-4 right-0 space-x-2 px-4">
+      <div class="fixed right-0 top-4 z-[99999] space-x-2 px-4">
         @if (session('fm.archive'))
           <x-toast type="success" :message="session('fm.archive')" />
         @endif

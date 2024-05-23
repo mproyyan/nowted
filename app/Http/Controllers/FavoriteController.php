@@ -13,7 +13,7 @@ class FavoriteController extends Controller
     {
         $userId = auth()->id();
         $notes = Note::root()->favorited()->where('user_id', '=', $userId)->get();
-        $folders =  Folder::root()->favorited()->where('user_id', '=', $userId)->get();
+        $folders = Folder::root()->favorited()->where('user_id', '=', $userId)->get();
         $folderIds = Folder::where('is_archived', '=', false)
             ->where('user_id', '=', $userId)
             ->get(['id', 'name', 'parent_folder']);
@@ -21,7 +21,7 @@ class FavoriteController extends Controller
         return view('favorite', [
             'notes' => $notes,
             'folders' => $folders,
-            'folderIds' => $folderIds
+            'folderIds' => $folderIds,
         ]);
     }
 
