@@ -25,3 +25,4 @@ jobs:
             # Tambahkan perintah SSH yang ingin Anda jalankan di VM Anda
             cd /var/www/nowted
             sudo git pull origin master
+            sudo npm run build
