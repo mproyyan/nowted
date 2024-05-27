@@ -1,0 +1,27 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run SSH commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22 # Default port, ubah jika Anda menggunakan port yang berbeda
+          script: |
+            echo "Deploying to server..."
+            # Tambahkan perintah SSH yang ingin Anda jalankan di VM Anda
+            cd /var/www/nowted
+            sudo git pull origin master
