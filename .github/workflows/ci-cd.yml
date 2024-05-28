@@ -23,9 +23,8 @@ jobs:
           script: |
             echo "Deploying to server..."
             # Tambahkan perintah SSH yang ingin Anda jalankan di VM Anda
-            whoami
-            which node
-            which npm
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd /home/${{ secrets.USERNAME }}/website/nowted
             git pull origin master
             npm run build
