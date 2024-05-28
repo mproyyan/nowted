@@ -23,6 +23,9 @@ jobs:
           script: |
             echo "Deploying to server..."
             # Tambahkan perintah SSH yang ingin Anda jalankan di VM Anda
+            whoami
+            which node
+            which npm
             cd /home/${{ secrets.USERNAME }}/website/nowted
             git pull origin master
             npm run build
