@@ -12,6 +12,7 @@
         }
     </style>
     @vite('resources/js/app.js')
+    @vite('resources/css/app.css')
     @livewireStyles
     @stack('styles')
     <title>Nowted</title>
@@ -98,7 +99,8 @@
                                             </path>
                                         </svg>
                                         <h4 class="mt-2 text-center text-lg text-gray-300">Are you sure that you want to
-                                            <span class="text-white font-semibold">logout</span>?</h4>
+                                            <span class="text-white font-semibold">logout</span>?
+                                        </h4>
                                         <p class="mt-2 text-center text-sm text-gray-400">Once you log out, you will be
                                             asked to fill in your credentials again when accessing a restricted page</p>
                                     </x-modal>

@@ -3,7 +3,7 @@
 @section('content')
     <div class="px-4">
         <!-- Page Title -->
-        <h2 class="text-xl font-semibold text-red-300 sm:text-3xl">My Notes</h2>
+        <h2 class="text-xl font-semibold text-white sm:text-3xl">My Notes</h2>
         <!-- action button -->
         <div x-data="{ open: false }" class="mt-2 flex">
             <button @click="open = !open" class="bg-bactive mr-2 flex items-center rounded-md px-2 py-1 text-white">
